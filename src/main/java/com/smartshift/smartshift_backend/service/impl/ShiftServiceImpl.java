@@ -7,7 +7,6 @@ import com.smartshift.smartshift_backend.entity.Employee;
 import com.smartshift.smartshift_backend.entity.Shift;
 import com.smartshift.smartshift_backend.repository.EmployeeRepository;
 import com.smartshift.smartshift_backend.repository.ShiftRepository;
-import com.smartshift.smartshift_backend.service.EmployeeService;
 import com.smartshift.smartshift_backend.service.NotificationService;
 import com.smartshift.smartshift_backend.service.ShiftService;
 import org.springframework.http.HttpStatus;
