@@ -19,6 +19,8 @@ public class EmployeeServiceImpl implements EmployeeService {
         this.employeeRepository = employeeRepository;
     }
 
+    // get all employees
+    // returns DTO to avoid exposing full entity (like passwords/user details)
     @Override
     public List<EmployeeResponseDTO> getAllEmployees() {
         return employeeRepository.findAll().stream()
@@ -30,12 +32,17 @@ public class EmployeeServiceImpl implements EmployeeService {
                         emp.getPhoneNumber(),
                         emp.getDateOfBirth(),
                         emp.getRole(),
+
+                        // check if employee has a linked user account
                         emp.getUser() != null,
+
+                        // simple login status flag (Y/N for UI)
                         emp.getUser() != null ? "Y" : "N"
                 ))
                 .toList();
     }
 
+    // get single employee by id
     @Override
     public Employee getEmployeeById(Long id) {
         return employeeRepository.findById(id)
@@ -44,26 +51,30 @@ public class EmployeeServiceImpl implements EmployeeService {
                 ));
     }
 
+    // create new employee
     @Override
     public Employee createEmployee(Employee employee) {
         return employeeRepository.save(employee);
     }
 
+    // update existing employee details
     @Override
     public Employee updateEmployee(Long id, Employee employee) {
         Employee existingEmployee = getEmployeeById(id);
 
+        // update basic info
         existingEmployee.setFirstName(employee.getFirstName());
         existingEmployee.setLastName(employee.getLastName());
         existingEmployee.setEmail(employee.getEmail());
         existingEmployee.setPhoneNumber(employee.getPhoneNumber());
         existingEmployee.setRole(employee.getRole());
         existingEmployee.setDateOfBirth(employee.getDateOfBirth());
-        //existingEmployee.setUser(employee.getUser());
+        // existingEmployee.setUser(employee.getUser());
 
         return employeeRepository.save(existingEmployee);
     }
 
+    // delete employee
     @Override
     public void deleteEmployee(Long id) {
         Employee existingEmployee = getEmployeeById(id);
